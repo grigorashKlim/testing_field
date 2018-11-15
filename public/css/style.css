@@ -1,0 +1,48 @@
+body
+{
+	background-color: #E6E6E6;
+	margin: 15px;
+	padding: 0px;
+
+	
+} 
+input,textarea
+{
+    margin-bottom: 20px;
+}
+.wrapper
+{
+	margin-left: 25px;
+	
+}
+.error
+{
+	 border: 2px solid red;
+}
+.user_nav
+{
+
+	background-color: dimgray;
+    color: white;
+    
+}
+.logout
+{
+    margin-top: 15px;
+}
+
+.creation_link
+{
+    margin-left: 50px;
+}
+.nav_option
+{
+    margin-right: 25px;
+
+}
+
+.formlinks
+{
+    display: inline;
+    margin: 0px;
+}

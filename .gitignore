@@ -1,0 +1,6 @@
+.directory
+.idea/
+.vagrant/
+Vagrantfile
+secret_data/
+
