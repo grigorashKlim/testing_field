@@ -34,6 +34,7 @@ public $conn;
 
     function createDB($table_name,$rows)
     {
+        $this->connectDB();
         try {
             $sql = "CREATE TABLE {$table_name} (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, {$rows})";
             $this->conn->exec($sql);
@@ -51,6 +52,7 @@ public $conn;
      */
     function insertDB($table_name, $data)
     {
+        $this->connectDB();
         $array=$this->array_to_string($data);
         $field_list=$array[0];
         $value_list='';
@@ -95,6 +97,7 @@ public $conn;
 
     function get_column_names($table_name,$except=null)
     {
+        $this->connectDB();
         $except_list='';
         foreach ($except as $v) {
             $except_list .= "and column_name !='".$v."'";
@@ -108,6 +111,7 @@ public $conn;
 
     function select_from_whereDB($select,$table_name,$condition=null,$limit=null,$offset=null)
     {
+        $this->connectDB();
         $query="SELECT {$select} FROM {$table_name}";
         if ($condition || $limit || $offset)
         {
@@ -123,12 +127,6 @@ public $conn;
                 $query .= " LIMIT {$limit} OFFSET {$offset}";
             }
         }
-
-
-
-
-
-
         $query=$this->conn->prepare($query);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -144,6 +142,7 @@ public $conn;
 
     function updateDB($table_name,$updated,$condition)
     {
+        $this->connectDB();
         $condition_set=$this->array_to_string($updated);
         $condition_where=$this->array_to_string($condition);
         $query="UPDATE {$table_name} SET {$condition_set[0]}='{$condition_set[1]}' where {$condition_where[0]}='{$condition_where[1]}'";
@@ -152,6 +151,7 @@ public $conn;
 
     function deleteDB($table_name,$condition)
     {
+        $this->connectDB();
         $array=$this->array_to_string($condition);
         $field_list=$array[0];
         $value_list=$array[1];

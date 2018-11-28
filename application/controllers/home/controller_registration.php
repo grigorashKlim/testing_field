@@ -23,7 +23,7 @@ class controller_registration extends Controller
 		$this->view->generate('main_view.php');
 
         if (isset($_POST['register'])){
-            $this->model->connectDB();
+            /*$this->model->connectDB();*/
             $a=$this->model->Register();
             if ($a==true){
                 exit(header('Location: http://first-test-project.lib/regfinish'));

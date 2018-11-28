@@ -10,7 +10,7 @@ class controller_info extends Controller
 
     function action_index()
     {
-        $this->model->connectDB();
+        /*$this->model->connectDB();*/
 
         if (isset($_POST['logout']))
         {
@@ -22,7 +22,7 @@ class controller_info extends Controller
 
         //paginator
         $limit=5;
-        $array_count=count($this->model->links_display('linkSTORAGE'));
+        $array_count=count($this->model->link_load('linkSTORAGE'));
 
         if ($array_count<$limit)
         {
@@ -59,9 +59,9 @@ class controller_info extends Controller
 
             if (isset($_POST['add_link']))
             {
-                $this->model->link_creation();
+                $this->model->link_create();
             }
-            $data=$this->model->links_display('linkSTORAGE',null,$limit,$offset);
+            $data=$this->model->link_load('linkSTORAGE',null,$limit,$offset);
             $this->view->generate('mylinks_view.php',$data,['array_count'=>$array_count,'limit'=>$limit]);
         }
 
@@ -71,7 +71,7 @@ class controller_info extends Controller
             {
                 exit(header('Location: http://first-test-project.lib/mylinks'));
             }
-            $data=$this->model->links_display('linkSTORAGE',['privacy' => 'public'],$limit,$offset);
+            $data=$this->model->link_load('linkSTORAGE',['privacy' => 'public'],$limit,$offset);
             $this->view->generate('info_view.php',$data,['array_count'=>$array_count,'limit'=>$limit]);
         }
     }

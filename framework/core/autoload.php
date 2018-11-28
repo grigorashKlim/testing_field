@@ -1,22 +1,14 @@
-<?php 
-// Autoloading
-
+<?php
 class Autoloader {
 
-	
 // Define a custom load method
 
 public function load($classname){
-/*	echo __CLASS__."<br>";
-	echo "classname : $classname <br>";
-	$t=substr($classname, 0,5);
-	echo "t : $t <br>";*/
-    // Here simply autoload app’s controller and model classes
 
+    // Here simply autoload app’s controller and model classes
     if (substr($classname, 0,10) == "controller"){
 
         // Controller
-		/*echo 'CONT_PATH: '.CONT_PATH;*/
         $class=CONT_PATH. "$classname.php";
         if (!is_file($class))
         {
@@ -33,10 +25,6 @@ public function load($classname){
 
         // Model
 
-
-       /* $y=substr($classname, 0,-6);
-        echo "$y <br>";
-    	echo MODEL_PATH ;*/
         require_once  MODEL_PATH . "$classname.php";
     }
 

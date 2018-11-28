@@ -26,14 +26,14 @@ class controller_mylinks extends Controller
         }
         if (isset($_POST['add_link']))
         {
-            $this->model->link_creation();
+            $this->model->link_create();
         }
 
         $user_login=$_SESSION['user_login'];
 
         //paginator
         $limit=5;
-        $array_count=count($this->model->links_display('linkSTORAGE',['creator'=>$user_login]));
+        $array_count=count($this->model->link_load('linkSTORAGE',['creator'=>$user_login]));
 
         if ($array_count<$limit)
         {
@@ -51,7 +51,7 @@ class controller_mylinks extends Controller
         }
         //
 
-        $data=$this->model->links_display('linkSTORAGE',['creator'=>$user_login],$limit,$offset);
+        $data=$this->model->link_load('linkSTORAGE',['creator'=>$user_login],$limit,$offset);
         $this->view->generate('mylinks_view.php',$data ,['array_count'=>$array_count,'limit'=>$limit]);
 
     }

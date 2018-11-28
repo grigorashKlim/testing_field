@@ -23,7 +23,7 @@ class controller_edit extends Controller
             }
             exit(header('Location: http://first-test-project.lib/mylinks'));
         }
-            $data=$this->model->links_display('linkSTORAGE',['link_header'=>$link_header]);
+            $data=$this->model->link_load('linkSTORAGE',['link_header'=>$link_header]);
             foreach ($data as $k => $v)
             {
                 foreach ($v as $x => $y) {

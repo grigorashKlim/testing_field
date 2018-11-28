@@ -8,7 +8,7 @@
             if (isset($_POST['create_link_field']))
             {*/
 
-            include_once $_SERVER['DOCUMENT_ROOT'] . '/application/views/home/info_view_link creation.php';
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/application/views/home/info_view_link_creation.php';
             /*}*/
         }
         ?>
@@ -95,22 +95,24 @@
         <!--//pager//////-->
         <?php
             $curr_page_name=$_GET['route'];
-            if (isset($_GET['page'])) {
-                $current_page = $_GET['page'];
-                $next = $current_page + 1;
-                $prev = $current_page - 1;
-                if ($current_page == 1) {
-                    $prev = $current_page;
-                }
-                if ($current_page = $array_count) {
-                    $next = $current_page;
-                }
-            } else {
-                $prev = 1;
-                $next = 2;
+        //logic
+        if (isset($_GET['page'])) {
+            $current_page = $_GET['page'];
+            $next = $current_page + 1;
+            $prev = $current_page - 1;
+            if ($current_page == 1) {
+                $prev = $current_page;
             }
-            if ($limit!=null)
-            {
+            if ($current_page+1 > $array_count) {
+                $next = $current_page;
+            }
+            unset($current_page);
+        } else {
+            $prev = 1;
+            $next = 2;
+        }
+
+        //display
                 echo "<ul class='pagination'>
             <li class='page-item'>
                 <a class='page-link' href='$curr_page_name?page=$prev' aria-label='Previous'>
@@ -127,7 +129,7 @@
                     <span class='sr-only'>Next</span>
                 </a>
             </li>
-        </ul>";}
+        </ul>";
         ?>
         <!--//pager//////-->
     </div>

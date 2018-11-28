@@ -25,7 +25,7 @@ class model_user extends Model
             }
     }
 
-    public function link_creation()
+    public function link_create()
     {
         $user_login=$_SESSION['user_login'];
         $privacy = "public";
@@ -36,7 +36,7 @@ class model_user extends Model
             $privacy = "private";
         }
         //create db for links
-        $this->connectDB();
+        /*$this->connectDB();*/
         $this->createDB('linkSTORAGE','link_header VARCHAR(500) NOT NULL,
             link VARCHAR(500) NOT NULL,
             creator VARCHAR(500) NOT NULL,
@@ -64,7 +64,7 @@ class model_user extends Model
             'description'=>$description]);
     }
 
-    function links_display($table_name,$condition=null,$limit=null,$offset=null)
+    function link_load($table_name,$condition=null,$limit=null,$offset=null)
     {
         $column_names = $this->get_column_names($table_name,['id','creator']);
         $column_names=$this->fetch_to_array($column_names);

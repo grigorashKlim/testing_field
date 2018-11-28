@@ -26,7 +26,7 @@ class controller_userList extends Controller
             $this->model->delete_user($login_id);
         }
         //paginator
-        $array_count=count($this->model->links_display('MyGuests'));
+        $array_count=count($this->model->link_load('MyGuests'));
         $limit=5;
         if ($array_count<$limit)
         {
@@ -44,7 +44,7 @@ class controller_userList extends Controller
             $offset=0;
         }
         //
-        $data=$this->model->links_display('MyGuests',null,$limit,$offset);
+        $data=$this->model->link_load('MyGuests',null,$limit,$offset);
         $this->view->generate('userList_view.php',$data,['array_count'=>$array_count,'limit'=>$limit]);
 
     }

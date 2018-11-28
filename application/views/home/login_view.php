@@ -1,5 +1,4 @@
 
-
 <div class="wrapper">
 <h1>Авторизация</h1>
 <form action="" method="post" class="rf">
