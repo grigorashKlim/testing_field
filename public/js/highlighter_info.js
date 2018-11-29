@@ -1,69 +1,71 @@
-(function( $ ){
-    $(function() {
-        $('.rf').each(function(){
+(function ($) {
+    $(function () {
+        $('.rf').each(function () {
             var form = $(this),
                 btn = form.find('.btn_submit');
 
             form.find('.rfield').addClass('empty_field');
 
             // Функция проверки полей формы
-            function checkInput(){
+            function checkInput() {
                 var autoArray = [];
-                var i=0;
+                var i = 0;
                 var b;
-                form.find('.rfield').each(function(){
+                form.find('.rfield').each(function () {
 
-                    if($(this).val() != ''){
-                        $(this).css({'border':'3px solid orange'});
+                    if ($(this).val() != '') {
+                        $(this).css({'border': '3px solid orange'});
                         $(this).removeClass('empty_field');
-                    } else
-                    {
+                    } else {
                         $(this).addClass('empty_field');
                         var form = $(this).attr('name');
                     }
-                    if(typeof form!= 'undefined'){autoArray[i]=form;i++;};
+                    if (typeof form != 'undefined') {
+                        autoArray[i] = form;
+                        i++;
+                    }
+                    ;
 
                 });
-                console.log (autoArray);
-                if (autoArray!=0) {$("#error").text(autoArray+" не введены!");}
+                console.log(autoArray);
+                if (autoArray != 0) {
+                    $("#error").text(autoArray + " не введены!");
+                }
             }
 
             // Функция подсветки незаполненных полей
-            function lightEmpty(){
-                form.find('.empty_field').css({'border':'3px solid #d8512d'});
+            function lightEmpty() {
+                form.find('.empty_field').css({'border': '3px solid #d8512d'});
                 /*var login = $(this).attr("name");
                 var autoArray = [];
                 autoArray.push(login);
                 console.log (autoArray);dhrhrhti*/
             }
-            function check(){
+
+            function check() {
                 checkInput();
                 var sizeEmpty = form.find('.empty_field').length;
 
-                if(sizeEmpty > 0 )
-                {
-                    if(btn.hasClass('disabled'))
-                    {
+                if (sizeEmpty > 0) {
+                    if (btn.hasClass('disabled')) {
                         return false
                     }
-                    else
-                    {
+                    else {
                         btn.addClass('disabled');
                     }
                 }
-                else
-                {
+                else {
                     btn.removeClass('disabled');
                 }
             }
 
-            btn.click(function(){check()
-                if($(this).hasClass('disabled')){
+            btn.click(function () {
+                check()
+                if ($(this).hasClass('disabled')) {
                     lightEmpty();
                     return false
                 }
-                else
-                {
+                else {
                     form.submit();
                 }
             });
@@ -71,8 +73,7 @@
         });
 
 
-
     });
 
 
-})( jQuery );
+})(jQuery);

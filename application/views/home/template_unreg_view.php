@@ -6,21 +6,22 @@
 
     <title>Главная</title>
     <!--BOOTSTRAP-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-------------->
     <link rel="stylesheet" href="/public/css/style.css">
 </head>
-<body >
+<body>
 <div class="row">
 
 
     <div class="col-6">
 
-        <a  class="nav_option" href="registration">Registration</a>
+        <a class="nav_option" href="registration">Registration</a>
 
-        <a  class="nav_option" href="login">Login</a>
+        <a class="nav_option" href="login">Login</a>
 
-        <a  class="nav_option" href="info">Info</a>
+        <a class="nav_option" href="info">Info</a>
 
     </div>
     <div class="  offset-4">
@@ -29,10 +30,7 @@
 </div>
 
 
-
-
-
-<?php include $_SERVER['DOCUMENT_ROOT'].'/application/views/home/'.$content_view; ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/application/views/home/' . $content_view; ?>
 
 
 <!--BOOTSTRAP-->

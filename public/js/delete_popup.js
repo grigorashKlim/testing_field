@@ -1,12 +1,12 @@
 function deselect(e) {
-    $('.pop').slideFadeToggle(function() {
+    $('.pop').slideFadeToggle(function () {
         e.removeClass('selected');
     });
 }
 
-$(function() {
-    $('#contact').on('click', function() {
-        if($(this).hasClass('selected')) {
+$(function () {
+    $('#contact').on('click', function () {
+        if ($(this).hasClass('selected')) {
             deselect($(this));
         } else {
             $(this).addClass('selected');
@@ -15,12 +15,12 @@ $(function() {
         return false;
     });
 
-    $('.close').on('click', function() {
+    $('.close').on('click', function () {
         deselect($('#contact'));
         return false;
     });
 });
 
-$.fn.slideFadeToggle = function(easing, callback) {
-    return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+$.fn.slideFadeToggle = function (easing, callback) {
+    return this.animate({opacity: 'toggle', height: 'toggle'}, 'fast', easing, callback);
 };
