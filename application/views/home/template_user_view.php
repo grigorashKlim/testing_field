@@ -21,19 +21,13 @@
 
         <a class="nav_option" href="mylinks">My Links</a>
 
-        <a class="nav_option" href="/?profile_id=<?php print_r($_SESSION['user_login']); ?>">My Profile</a>
+        <a class="nav_option" href="/?profile_id=<?php print_r((New User)->getLogin()); ?>">My Profile</a>
 
     </div>
 
     <div class="  offset-4">
         Логин: <?php
-
-        if (isset($_SESSION['user_login'])) {
-            echo $_SESSION['user_login'];
-        } else {
-            echo "Вы не авторизировались!";
-        }
-
+        print_r((New User)->getLogin());
         ?>
         <form action="logout" method="post">
             <input type="submit" name="logout" value="Выйти">
@@ -41,20 +35,9 @@
     </div>
 
 
-    <!--   if (isset($_SESSION['user_login']))
-       {
-       echo "Логин:".$_SESSION['user_login'];
-       ?>
-
-
-
-       <form action="" method="post">
-           <input type="submit" name="logout" value="Выйти">
-       </form>
-   </div>
-   --><?php /*}*/ ?>
 
 </div>
+
 
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/application/views/home/' . $content_view; ?>

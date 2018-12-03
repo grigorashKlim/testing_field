@@ -21,7 +21,7 @@
 
         <a class="nav_option" href="mylinks">My Links</a>
 
-        <a class="nav_option" href="/?profile_id=<?php print_r($_SESSION['user_login']); ?>">My Profile</a>
+        <a class="nav_option" href="/?profile_id=<?php print_r((New User)->getLogin()); ?>">My Profile</a>
 
         <a class="nav_option" href="userList">User List</a>
 
@@ -31,12 +31,7 @@
     <div class="  offset-4">
         Логин: <?php
 
-        if (isset($_SESSION['user_login'])) {
-            echo $_SESSION['user_login'];
-        } else {
-            echo "Вы не авторизировались!";
-        }
-
+        print_r((New User)->getLogin());
         ?>
         <form action="logout" method="post">
             <input type="submit" name="logout" value="Выйти">

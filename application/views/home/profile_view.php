@@ -14,7 +14,10 @@
             Почта: <br> <input type="text" name="email" id="email" class="rfield "
                                value='<?php print_r($data['email']); ?>'>
             <?php
-            if ($_SESSION['role'] == 'admin') {
+            /**
+             * shows below profile info if admin
+             */
+            if ($this->role == 'admin') {
                 $display = '';
             } else {
                 $display = 'none';
@@ -31,6 +34,7 @@
             <div id="error"></div>
             <div id="password_check"></div>
             <div id="email_check"></div>
+            <?php $error_change_profile->displayError();?>
         </form>
     </div>
 

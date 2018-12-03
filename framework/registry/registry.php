@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Class Registry
+ * data storage class
+ */
 // Класс хранилища
 Class Registry
 {
@@ -7,6 +10,14 @@ Class Registry
     private $vars = array();
 
     // запись данных
+
+    /**
+     * @param $key
+     * @param $var
+     * @return bool
+     * @throws Exception
+     * set data
+     */
     function set($key, $var)
     {
         if (isset($this->vars[$key]) == true) {
@@ -19,6 +30,12 @@ Class Registry
     }
 
     // получение данных
+
+    /**
+     * @param $key
+     * @return mixed|null
+     * get data from storage
+     */
     function get($key)
     {
         if (isset($this->vars[$key]) == false) {
@@ -33,6 +50,11 @@ Class Registry
     }
 
     // удаление данных
+
+    /**
+     * @param $var
+     * remove data
+     */
     function remove($var)
     {
         unset($this->vars[$key]);

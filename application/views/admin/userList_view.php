@@ -34,7 +34,9 @@
         </div>
 
         <?php
-        /*var_dump($data);*/
+        /**
+         * user list output cycle data
+         */
         $link_array = [];
         $link_id = 0;
         if (is_array($data)) {
@@ -88,7 +90,10 @@
         ?>
         <!--//pager//////-->
         <?php
-
+        /**
+         * draw pager= buttons with page numbers and arrow buttons
+         *
+         */
         echo "<ul class='pagination'>
             <li class='page-item'>
                 <a class='page-link' href='userList?page=$prev' aria-label='Previous'>

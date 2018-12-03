@@ -1,4 +1,8 @@
 <?php
+/**
+ * Class Listing
+ * contains methods to work with displaying lists on pages
+ */
 
 class Listing
 {
@@ -7,6 +11,14 @@ class Listing
         $this->model = new Model;
     }
 
+    /**
+     * @param $table_name
+     * @param $condition
+     * @param $limit
+     * @return mixed
+     * prepare data for paginator:
+     * logic for next, previous buttons,amount of page buttons and necessity of paginator at all.
+     */
     function pagination_buttons_data($table_name, $condition, $limit)
     {
         $necessity = null;
@@ -39,6 +51,15 @@ class Listing
         return $pag_array;
     }
 
+    /**
+     * @param $table_name
+     * @param null $condition
+     * @param null $limit
+     * @return mixed
+     * prepare rows data for displaying on a view page
+     * takes where and with such parameters(condition,offset and limit if set) to take data from table
+     * returns array with 2 arrays in it: first with info for paginating, other with data itself.
+     */
     function list_load($table_name, $condition = null, $limit = null)
     {
         $column_names = $this->model->get_column_names($table_name, ['id', 'creator']);

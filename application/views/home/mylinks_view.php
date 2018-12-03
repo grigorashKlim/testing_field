@@ -38,7 +38,9 @@
         </div>
 
         <?php
-        /*var_dump($data);*/
+        /**
+         * list output cycle data
+         */
         $link_array = [];
         $link_id = 0;
         if (is_array($data)) {
@@ -92,6 +94,10 @@
         ?>
         <!--//pager//////-->
         <?php
+        /**
+         * draw pager= buttons with page numbers and arrow buttons
+         * $curr_page_name needs for navigation when  one content view used for different controllers
+         */
         if (isset($_GET['route'])) {
             $curr_page_name = $_GET['route'];
         } else {

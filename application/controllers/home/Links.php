@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Links
+ * actions with links
+ */
 class Links
 {
     public function __construct()
@@ -7,9 +11,14 @@ class Links
         $this->model = new Model;
     }
 
+    /**
+     * @return bool
+     * takes data from link creation form, creates link storage and put into it with originality but link header check.
+     * also makes links description storage containing header and description of the link.
+     */
     public function link_create()
     {
-        $user_login = $_SESSION['user_login'];
+        $user_login = (New User)->getLogin();
         $privacy = "public";
         $link_header = $_POST['link_header'];
         $link = $_POST['link'];
@@ -46,6 +55,10 @@ class Links
             'description' => $description]);
     }
 
+    /**
+     * @return mixed
+     * get data for description of the link page
+     */
     function link_description()
     {
         $link_header = $_GET['link_id'];
@@ -56,10 +69,16 @@ class Links
         $creator = $this->model->select_from_whereDB('creator', 'linkSTORAGE', ['link_header' => $link_header]);
         $creator = $this->model->fetch_to_string($creator);
 
-        $array = array($link_header, $description, $creator);
+        $array['link_header']=$link_header;
+        $array['description']=$description;
+        $array['creator']=$creator;
         return $array;
     }
 
+    /**
+     * @param $link_header
+     * updating link info
+     */
     function update_link($link_header)
     {
 
@@ -87,6 +106,9 @@ class Links
         }
     }
 
+    /**
+     * @param $link_header
+     */
     function delete_link($link_header)
     {
         $this->model->deleteDB('linkSTORAGE', ['link_header' => $link_header]);

@@ -1,12 +1,16 @@
 <?php
 
-class model_admin extends model_user
+class ModelAdmin extends ModelUser
 {
     function delete_user($login_id)
     {
         $this->deleteDB('MyGuests', ['login' => $login_id]);
     }
 
+    /**
+     * @param $profile_id
+     * checks if role status was changed and updates
+     */
     function change_role_status($profile_id)
     {
         $role_typed = $_POST['role'];

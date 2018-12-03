@@ -1,4 +1,13 @@
+/**
+ * script checks user forms for emptiness, password coincidence and email validation.
+ * if field is empty it becomes red and error message appears. Also, of course, form doesnt submit till errors exist and user fix them.
+ * there are few highlighter script files, difference is in checking fields only
+ */
 (function ($) {
+    /**
+     * as default gives all fields with name='rfield' class empty till the opposite proved.
+     * then if value of field empty put the name of the field into error array, else remove empty class
+     */
     $(function () {
         var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
         $('.rf').each(function () {
@@ -32,6 +41,9 @@
 
                 });
                 console.log(autoArray);
+                /**
+                 * error display
+                 */
                 if (autoArray != 0) {
                     $("#error").text(autoArray + " не введены!");
                 }
@@ -51,11 +63,19 @@
                 }
             }
 
+            /**
+             * makes empty field red
+             */
             // Функция подсветки незаполненных полей
             function lightEmpty() {
                 form.find('.empty_field').css({'border': '3px solid #d8512d'});
             }
 
+            /**
+             *
+             * @returns {boolean}
+             * count amount of forms with class "empty" and add to submit button class disabled if amount > 0
+             */
             function check() {
                 checkInput();
                 var sizeEmpty = form.find('.empty_field').length;
@@ -74,7 +94,9 @@
                 }
             }
 
-
+            /**
+             * submit button scenario: if button disabled -> light fields and return false.
+             */
             btn.click(function () {
                 check()
                 if ($(this).hasClass('disabled')) {

@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-class controller_userList extends Controller
+class ControllerUserList extends Controller
 {
     function __construct()
     {
-        $this->model = new model_admin();
+        $this->model = new ModelAdmin();
         $this->view = new View();
         $this->listing = new Listing();
         $this->access_lvl = 'admin';
@@ -14,13 +14,9 @@ class controller_userList extends Controller
 
     function action()
     {
-        /*$this->model->logout();*/
-
         if (isset($_POST['edit'])) {
             $link_id = $_POST['edit_id'];
-            exit(header('Location: http://first-test-project.lib/?profile_id=' . $link_id));
-
-
+            $this->redirection('?profile_id=' . $link_id);
         }
         if (isset($_POST['delete'])) {
             $login_id = $_POST['del_id'];
@@ -32,5 +28,5 @@ class controller_userList extends Controller
     }
 }
 
-(New controller_userList)->action();
+(New ControllerUserList)->action();
 

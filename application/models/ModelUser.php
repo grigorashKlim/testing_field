@@ -1,9 +1,12 @@
 <?php
 
-class model_user extends Model
+class ModelUser extends Model
 {
 
 
+    /**
+     *logout without redirection. Needs when admin changes other user's logins
+     */
     public function force_logout()
     {
         if (isset($_SESSION['user_login'])) {
@@ -14,10 +17,15 @@ class model_user extends Model
     }
 
 
+    /**
+     * @param $user_login
+     * @return array|bool
+     * get profile data (login,password etc) for profile editing page
+     */
     function get_profile_data($user_login)
     {
         if ($user_login == null) {
-            $user_login = $_SESSION['user_login'];
+            $user_login = (New User)->getLogin();
         }
         $column_names = $this->get_column_names('MyGuests', ['id', 'reg_date']);
         $column_names = $this->fetch_to_array($column_names);
@@ -39,10 +47,16 @@ class model_user extends Model
         return $row_array;
     }
 
+    /**
+     * @param null $user_login
+     * @return bool|null|string
+     * checks if profile data were changed on profile page, checks login originality.
+     *returns user login if it was changed for relog
+     */
     function change_profile($user_login = null)
     {
         if ($user_login == null) {
-            $user_login = $_SESSION['user_login'];
+            $user_login = (New User)->getLogin();
         }
 
         $login_typed = $_POST['login'];
@@ -71,7 +85,9 @@ class model_user extends Model
                     $this->updateDB('linkSTORAGE', ['creator' => $login_typed], ['creator' => $login_db]);
                     return $login_typed;
                 } else {
-                    echo "That username already exists! Please try another one!";
+                    /*echo "That username already exists! Please try another one!";*/
+                    $error_change_profile= New ErrorLogger();
+                    $error_change_profile->addError('Пользователь с таким именем уже существует! Пожалуйста, выберите другое имя.');
                     return false;
                 }
             } else {
@@ -81,15 +97,18 @@ class model_user extends Model
         }
     }
 
+    /**
+     * @param $login
+     * takes data and password from DB and makes logout->login with them
+     */
     function relog($login)
     {
-
         $login_db = $this->select_from_whereDB('login', 'MyGuests', ['login' => $login]);
         $login_db = $this->fetch_to_string($login_db);
         $password_db = $this->select_from_whereDB('password', 'MyGuests', ['login' => $login]);
         $password_db = $this->fetch_to_string($password_db);
         $this->force_logout();
-        $sign_in = new model_base();
+        $sign_in = new modelBase();
         $sign_in->sign_in($login_db, $password_db);
     }
 }

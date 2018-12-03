@@ -1,16 +1,25 @@
 <?php
 
+/**
+ * Class Autoloader
+ * simple class loader
+ */
 class Autoloader
 {
 
 // Define a custom load method
 
+    /**
+     * @param $classname
+     * if class is not declared autholoader started.
+     * if requested class starts with "Controller" or "Model" words require file with such name from dirs respectively
+     */
     public function load($classname)
     {
 
         // Here simply autoload app’s controller and model classes
 
-        if (substr($classname, 0, 10) == "controller") {
+        if (substr($classname, 0, 10) == "Controller") {
 
             // Controller
             $class = CONT_PATH . "$classname.php";
@@ -21,11 +30,15 @@ class Autoloader
             }
 
 
-        } elseif (substr($classname, 0, 5) == "model") {
+        } elseif (substr($classname, 0, 5) == "Model") {
 
             // Model
 
             require_once MODEL_PATH . "$classname.php";
+        }
+        if (is_file(CONT_PATH . "$classname.php"))
+        {
+            require_once CONT_PATH . "$classname.php";
         }
 
     }

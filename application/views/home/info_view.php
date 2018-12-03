@@ -1,7 +1,7 @@
 <div class="row ">
     <div class=" col-3">
         <?php
-        if (isset($_SESSION['user_login'])) {
+        if ((New User)->getLogin()!='unreg') {
             ?>
             <a href="mylinks"><input type='submit' name='create' value='Создать ссылку'></a>
             <?php
@@ -28,7 +28,9 @@
         </div>
         <!--listing-->
         <?php
-
+        /**
+         * list output cycle data
+         */
         $link_array = [];
         $link_id = 0;
         if (is_array($data)) {

@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-class controller_info extends Controller
+class ControllerInfo extends Controller
 {
     function __construct()
     {
-        $this->model = new model_user();
+        $this->model = new ModelUser();
         $this->view = new View();
         $this->listing = new Listing();
         $this->linking = new Links();
@@ -13,13 +13,14 @@ class controller_info extends Controller
 
     function action()
     {
+        $role=(New User)->getRole();
 
-        if ((isset($_SESSION['role'])) && ($_SESSION['role'] == 'editor' || $_SESSION['role'] == 'admin')) {
+        if ($role && ($role == 'editor' || $role == 'admin')) {
             $this->access_lvl = 'editor';
 
             if (isset($_POST['edit'])) {
                 $link_id = $_POST['edit_id'];
-                exit(header('Location: http://first-test-project.lib/?link_id_for_red=' . $link_id));
+                $this->redirection('?link_id_for_red=' . $link_id);
             }
 
             if (isset($_POST['delete'])) {
@@ -35,7 +36,7 @@ class controller_info extends Controller
             $this->view->generate('mylinks_view.php', $data, $pag_array);
         } else {
             if (isset($_POST['create'])) {
-                exit(header('Location: http://first-test-project.lib/mylinks'));
+                $this->redirection('mylinks');
             }
             extract($pag_and_data = $this->listing->list_load('linkSTORAGE', ['privacy' => 'public'], 10));
             $this->view->generate('info_view.php', $data, $pag_array);
@@ -43,6 +44,6 @@ class controller_info extends Controller
     }
 }
 
-(New controller_info)->action();
+(New ControllerInfo)->action();
 
 

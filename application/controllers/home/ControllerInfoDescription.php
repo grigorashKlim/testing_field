@@ -1,11 +1,10 @@
 <?php
-session_start();
 
-class controller_info_description extends Controller
+class ControllerInfoDescription extends Controller
 {
     function __construct()
     {
-        $this->model = new model_user();
+        $this->model = new ModelUser();
         $this->view = new View();
         $this->listing = new Listing();
         $this->linking = new Links();
@@ -23,5 +22,5 @@ class controller_info_description extends Controller
     }
 }
 
-(New controller_info_description)->action();
+(New ControllerInfoDescription)->action();
 

@@ -1,6 +1,6 @@
 <?php
 
-class model_base extends Model
+class ModelBase extends Model
 {
     function __construct()
     {
@@ -18,6 +18,11 @@ class model_base extends Model
 
     }
 
+    /**
+     * @param null $email
+     * create storage for checksums and emails for verification proccess.
+     * Also sends email message for user with checksum
+     */
     public function mail_post($email = null)
     {
         if ($email != null) {
@@ -40,6 +45,10 @@ class model_base extends Model
 			charset=windows-1251", "From: robot@mail.com");
     }
 
+    /**
+     * @return bool
+     * creates user table, checks login originality and insert data into DB with "blocked" user status.
+     */
     public function Register()
     {
         $this->createDB('MyGuests', 'login VARCHAR(30) NOT NULL,
@@ -53,7 +62,6 @@ class model_base extends Model
         $role = "user";
 
         $checking_login = $this->select_from_whereDB('login', 'MyGuests', ['login' => $this->login]);
-        /*print_r($chk);*/
         $this->login = trim($this->login);
         $this->email = trim($this->email);
         $this->password = trim($this->password);
@@ -76,6 +84,10 @@ class model_base extends Model
 
     }
 
+    /**
+     * @return bool
+     * checksums compare (local and user's) and lifetime
+     */
     public function mail_check()
     {
         $time = gmdate('Y-m-d h:i:s', time());
@@ -105,12 +117,20 @@ class model_base extends Model
             $this->updateDB('MyGuests', ['status' => 'active'], ['email' => $u_email]);
             $this->deleteDB('validate_temp', ['email' => $u_email]);
         } else {
-            echo "oops";
+
         }
     }
 
+    /**
+     * @param $login
+     * @param $password
+     * @return string
+     * login,password,status check and putting login into session
+     */
     public function sign_in($login, $password)
     {
+        $login= trim($login, " \n.");
+        $password= trim($password, " \n.");
         $error = ' ';
         echo "$error";
         //login fom DB
@@ -131,10 +151,6 @@ class model_base extends Model
                 if ($status_db == 'active') {
                     session_start();
                     $_SESSION['user_login'] = $login;
-                    $role = $this->select_from_whereDB('role', 'MyGuests', ['login' => $login]);
-                    $role = $this->fetch_to_string($role);
-                    $_SESSION['role'] = $role;
-                    print_r($role);
                     return $login;
                 } else {
                     $error .= "Вы не подтвердили регистрацию!";

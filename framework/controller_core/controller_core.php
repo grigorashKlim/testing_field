@@ -1,5 +1,6 @@
 <?php
 
+
 class Controller
 {
     public $model;
@@ -17,11 +18,27 @@ class Controller
 
     }
 
+    /**
+     * @param $url
+     * replace header redirection to function
+     */
+    function redirection($url)
+    {
+        exit(header('Location: '.$url));
+    }
+
+    /**
+     * @return bool
+     * role check for page access
+     * if page need access protection it declares "access" atribute with role needed for access.
+     * if user role unset (user didnt sign in) its "unreg" as default
+     * if role doesnt compare acces level redirects to "access denied" page.
+     */
     function access()
     {
-        if (isset($_SESSION['role'])) {
-            $role = $_SESSION['role'];
-        } else {
+        $role=(New User)->getRole();
+
+        if (!$role) {
             $role = 'unreg';
         }
         if ($role == 'admin') {
@@ -31,10 +48,8 @@ class Controller
             return false;
         }
         if ($role != $this->access_lvl) {
-            exit(header('Location: http://first-test-project.lib/accessDenied'));
+            $this->redirection('accessDenied');
         }
-
-
     }
 
 }

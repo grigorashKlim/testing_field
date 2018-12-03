@@ -20,6 +20,12 @@ class Model
         $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    /**
+     * transforms array's indexes into list $field_list and values - into $value_list and puts both lists into another array.
+     * needed for setting sql queries params
+     * @param $data
+     * @return array
+     */
     function array_to_string($data)
     {
         $field_list = '';  //field list string
@@ -47,9 +53,11 @@ class Model
     }
 
     /**
-     * @select $table_name
-     * @select $data ---> array kind of [column_name => $info]
-     * data insert into DB
+     * @param $table_name
+     * @param $data
+     * @return bool|PDOStatement
+     *
+     * same as sql query "INSERT INTO"
      */
     function insertDB($table_name, $data)
     {
@@ -69,6 +77,11 @@ class Model
         return $ins;
     }
 
+    /**
+     * @param $fetch_result
+     * @return bool
+     * transform sql resulting array into associative array (remove nesting level)
+     */
     function fetch_to_array($fetch_result)
     {
         if (!is_array($fetch_result)) {
@@ -83,6 +96,11 @@ class Model
         return $c;
     }
 
+    /**
+     * @param $fetch_result
+     * @return bool|mixed
+     * transform fetch result into one first string of a query
+     */
     function fetch_to_string($fetch_result)
     {
         $fetch_result = $this->fetch_to_array($fetch_result);
@@ -94,6 +112,12 @@ class Model
         return $fetch_result;
     }
 
+    /**
+     * @param $table_name
+     * @param null $except
+     * @return array
+     * by table name gives name of all columns contained
+     */
     function get_column_names($table_name, $except = null)
     {
         $this->connectDB();
@@ -108,6 +132,15 @@ class Model
         return $result;
     }
 
+    /**
+     * @param $select
+     * @param $table_name
+     * @param null $condition
+     * @param null $limit
+     * @param null $offset
+     * @return array|bool
+     * same as "SELECT FROM" sql query"  + supports extra condition and limit/offset for output
+     */
     function select_from_whereDB($select, $table_name, $condition = null, $limit = null, $offset = null)
     {
         $this->connectDB();
@@ -134,6 +167,12 @@ class Model
         }
     }
 
+    /**
+     * @param $table_name
+     * @param $condition
+     * @return bool|mixed
+     * returns number of table rows
+     */
     function arrayCount($table_name, $condition)
     {
         $this->connectDB();
@@ -155,6 +194,12 @@ class Model
         }
     }
 
+    /**
+     * @param $table_name
+     * @param $updated
+     * @param $condition
+     * same as "UPDATE" sql query
+     */
     function updateDB($table_name, $updated, $condition)
     {
         $this->connectDB();
@@ -164,6 +209,11 @@ class Model
         $this->conn->exec($query);
     }
 
+    /**
+     * @param $table_name
+     * @param $condition
+     * same as "DELETE" sql query
+     */
     function deleteDB($table_name, $condition)
     {
         $this->connectDB();

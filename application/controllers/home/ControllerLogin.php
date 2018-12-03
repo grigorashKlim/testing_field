@@ -1,10 +1,10 @@
 <?php
 
-class controller_login extends Controller
+class ControllerLogin extends Controller
 {
     function __construct()
     {
-        $this->model = new model_base();
+        $this->model = new ModelBase();
         $this->view = new View();
     }
 
@@ -20,12 +20,12 @@ class controller_login extends Controller
             $user_login = $this->model->sign_in($this->login, $this->password);
             if ($user_login) {
 
-                exit(header('Location: http://first-test-project.lib/info'));
+                $this->redirection('info');
 
             }
         }
     }
 }
 
-(New controller_login)->action();
+(New ControllerLogin)->action();
 

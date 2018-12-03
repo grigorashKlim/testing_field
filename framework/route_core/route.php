@@ -1,10 +1,18 @@
 <?php
 
+/**
+ * Class Router
+ * link url and files
+ */
 class Router
 {
     public $route;
     public $controller;
 
+    /**
+     * @return mixed
+     * "read" query string and put info int $route
+     */
     function separate()
     {
         $this->route = (empty($_GET['route'])) ? '' : $_GET['route'];
@@ -34,6 +42,12 @@ class Router
         }
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     * first sets into registry income route and output argument pair
+     * then gives atribute controller path to document to init
+     */
     function compare()
     {
         $link_id = self::separate();
@@ -41,30 +55,29 @@ class Router
 
         $table = new Registry;
         $table->set('accessDenied', 'accessDenied');
-        $table->set('registration', 'registration');
-        $table->set('index', 'info');
-        $table->set('info', 'info');
+        $table->set('registration', 'Registration');
+        $table->set('index', 'Info');
+        $table->set('info', 'Info');
         if (isset($_GET['profile_id'])) {
             $profile_id = $_GET['profile_id'];
             $this->route = 'profile+' . $profile_id;
-            $table->set('profile+' . $profile_id, 'profile');
+            $table->set('profile+' . $profile_id, 'Profile');
         }
-        $table->set('info+' . $link_id, 'info_description');
-        $table->set('edit+' . $link_id_for_red, 'edit');
-        $table->set('admin', 'admin');
-        $table->set('activate', 'login');
-        $table->set('login', 'login');
+        $table->set('info+' . $link_id, 'InfoDescription');
+        $table->set('edit+' . $link_id_for_red, 'Edit');
+        $table->set('activate', 'Login');
+        $table->set('login', 'Login');
         $table->set('logout', 'logout');
         $table->set('regfinish', 'regfinish');
-        $table->set('mylinks', 'mylinks');
-        $table->set('userList', 'userList');
+        $table->set('mylinks', 'MyLinks');
+        $table->set('userList', 'UserList');
         $arg = $table->get($this->route);
         if ($arg == 'regfinish') {
-            $this->controller = CONT_PATH . 'regfinish.php';
+            $this->controller = VIEW_PATH . 'regfinish.php';
             return true;
         }
         if ($arg == 'accessDenied') {
-            $this->controller = CONT_PATH . 'accessDenied.php';
+            $this->controller = VIEW_PATH . 'accessDenied.php';
             return true;
         }
         if ($arg == 'logout') {
@@ -72,17 +85,21 @@ class Router
             return true;
         }
 
-        $this->controller = CONT_PATH . 'controller_' . $arg . '.php';
+        $this->controller = CONT_PATH . 'Controller' . $arg . '.php';
         if (!is_file($this->controller)) {
-            $this->controller = ADM_CONT_PATH . 'controller_' . $arg . '.php';
+            $this->controller = ADM_CONT_PATH . 'Controller' . $arg . '.php';
             if (!is_file($this->controller)) {
-                $this->controller = CONT_PATH . '404.php';
+                $this->controller = VIEW_PATH . '404.php';
             }
         }
 
 
     }
 
+    /**
+     * @throws Exception
+     * include called controller
+     */
     function init()
     {
         self::compare();

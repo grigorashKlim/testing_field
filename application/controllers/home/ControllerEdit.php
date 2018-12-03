@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-class controller_edit extends Controller
+class ControllerEdit extends Controller
 {
     function __construct()
     {
-        $this->model = new model_user();
+        $this->model = new ModelUser();
         $this->view = new View();
         $this->listing = new Listing();
         $this->linking = new Links();
@@ -21,9 +21,9 @@ class controller_edit extends Controller
         if (isset($_POST['edit_it'])) {
             $this->linking->update_link($link_header);
             if ($_SESSION['role'] = 'editor') {
-                exit(header('Location: http://first-test-project.lib/'));
+                $this->redirection(' ');
             }
-            exit(header('Location: http://first-test-project.lib/mylinks'));
+            $this->redirection('mylinks');
         }
         extract($pag_and_data = $this->listing->list_load('linkSTORAGE', ['link_header' => $link_header]));
 
@@ -40,5 +40,5 @@ class controller_edit extends Controller
     }
 }
 
-(New controller_edit)->action();
+(New ControllerEdit)->action();
 
