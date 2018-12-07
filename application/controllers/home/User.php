@@ -1,4 +1,5 @@
 <?php
+/*session_start();*/
 /**
  * contains user data such as login and password
 */
@@ -31,9 +32,13 @@ class User
     public function getRole()
     {
         $login=$this->getLogin();
-        $role = (New Model)->select_from_whereDB('role', 'MyGuests', ['login' => $login]);
-        $role = (New Model)->fetch_to_string($role);
-        return $role;
+        if ($login=='unreg')
+        {
+            return 'unreg';
+        }
+        $this->role = (New Model)->select_from_whereDB('role', 'MyGuests', ['login' => $login]);
+        $this->role = (New Model)->fetch_to_string($this->role);
+        return $this->role;
     }
 
 }

@@ -1,21 +1,22 @@
 <?php
-
+session_start();
 
 class Controller
 {
     public $model;
     public $view;
     public $access_lvl;
+    public $default_template = VIEW_PATH . 'main_template_view.php';
 
     function __construct()
     {
-        $this->view = new View();
+        $this->view = new TheViewCore($this->default_template);
         $this->model = new Model();
     }
 
     function action()
     {
-
+        echo $this->view->render();
     }
 
     /**
@@ -24,7 +25,7 @@ class Controller
      */
     function redirection($url)
     {
-        exit(header('Location: '.$url));
+        exit(header('Location: ' . $url));
     }
 
     /**
@@ -36,7 +37,7 @@ class Controller
      */
     function access()
     {
-        $role=(New User)->getRole();
+        $role = (New User)->getRole();
 
         if (!$role) {
             $role = 'unreg';

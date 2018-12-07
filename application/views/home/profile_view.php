@@ -17,7 +17,7 @@
             /**
              * shows below profile info if admin
              */
-            if ($this->role == 'admin') {
+            if ((New User)->getRole() == 'admin') {
                 $display = '';
             } else {
                 $display = 'none';
@@ -34,7 +34,10 @@
             <div id="error"></div>
             <div id="password_check"></div>
             <div id="email_check"></div>
-            <?php $error_change_profile->displayError();?>
+            <div ><?php
+                if (isset($this->errors))
+                    echo $this->errors;
+                ?></div>
         </form>
     </div>
 

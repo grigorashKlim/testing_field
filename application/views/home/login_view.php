@@ -7,6 +7,10 @@
         <div id="error"></div>
         <div id="password_check"></div>
         <div id="email_check"></div>
+        <div ><?php
+            if (isset($this->errors))
+                echo $this->errors;
+            ?></div>
     </form>
 </div>
 <script type="text/javascript" src="/public/js/jquery-3.3.1.min.js"></script>

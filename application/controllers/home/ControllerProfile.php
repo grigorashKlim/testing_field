@@ -1,23 +1,20 @@
 <?php
-session_start();
 
 class ControllerProfile extends Controller
 {
     function __construct()
     {
         $this->model = new ModelUser();
-        $this->view = new View();
         $this->access_lvl = 'user';
         $this->access();
     }
 
-    function action()
+    function action($profile_id = null)
     {
 
-        $user_login=(New User)->getLogin();
+        $user_login = (New User)->getLogin();
 
-        if (isset($_GET['profile_id'])) {
-            $profile_id = $_GET['profile_id'];
+        if ($profile_id) {
             if ($profile_id !== $user_login) {
                 $this->access_lvl = 'admin';
                 $this->access();
@@ -29,7 +26,9 @@ class ControllerProfile extends Controller
                 (New ModelAdmin())->change_role_status($profile_id);
             }
             $login = $this->model->change_profile($profile_id);
-
+            if ($login == false) {
+                $body['errors'] = 'Пользователь с таким именем уже существует! Пожалуйста, выберите другое имя.';
+            }
             if ($profile_id == $user_login) {
                 $this->model->relog($login);
                 $this->redirection('info');
@@ -39,8 +38,11 @@ class ControllerProfile extends Controller
             }
 
         }
-        $this->view->generate('profile_view.php', $this->model->get_profile_data($profile_id));
+        $template = 'profile_view.php';
+        $header['title'] = 'Мой Профиль';
+        $body['data'] = $this->model->get_profile_data($profile_id);
+        $page = New Page($template, $header, $body);
+        $page->composition();
     }
 }
 
-(New ControllerProfile)->action();

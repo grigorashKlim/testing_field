@@ -42,7 +42,7 @@ class Links
             $link_from_db = $this->model->fetch_to_string($link_from_db);
         }
         if ($link_header == $header_from_db && $link == $link_from_db) {
-            echo " <br> Такая ссылка уже существует! <br>";
+
             return false;
         }
         $this->model->insertDB('linkSTORAGE', ['link_header' => $link_header,
@@ -59,19 +59,16 @@ class Links
      * @return mixed
      * get data for description of the link page
      */
-    function link_description()
+    function link_description($page_arg)
     {
-        $link_header = $_GET['link_id'];
-
+        $link_header = $page_arg;
         $description = $this->model->select_from_whereDB('description', 'linkDESCRIPTION', ['link_header' => $link_header]);
         $description = $this->model->fetch_to_string($description);
-
         $creator = $this->model->select_from_whereDB('creator', 'linkSTORAGE', ['link_header' => $link_header]);
         $creator = $this->model->fetch_to_string($creator);
-
-        $array['link_header']=$link_header;
-        $array['description']=$description;
-        $array['creator']=$creator;
+        $array['link_header'] = $link_header;
+        $array['description'] = $description;
+        $array['creator'] = $creator;
         return $array;
     }
 

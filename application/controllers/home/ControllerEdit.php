@@ -1,29 +1,25 @@
 <?php
-session_start();
 
 class ControllerEdit extends Controller
 {
     function __construct()
     {
         $this->model = new ModelUser();
-        $this->view = new View();
         $this->listing = new Listing();
         $this->linking = new Links();
         $this->access_lvl = 'user';
         $this->access();
     }
 
-    function action()
+    function action($link_header = null)
     {
-        $link_header = $_GET['link_id_for_red'];
-        /*$this->model->logout();*/
 
         if (isset($_POST['edit_it'])) {
             $this->linking->update_link($link_header);
             if ($_SESSION['role'] = 'editor') {
                 $this->redirection(' ');
             }
-            $this->redirection('mylinks');
+            $this->redirection('my_links');
         }
         extract($pag_and_data = $this->listing->list_load('linkSTORAGE', ['link_header' => $link_header]));
 
@@ -34,11 +30,14 @@ class ControllerEdit extends Controller
             }
         }
         $data = $intermediate_array;
-
-        $this->view->generate('edit_view.php', $data, $pag_array);
+        $template = 'edit_view.php';
+        $header['title'] = 'Редактирование';
+        $body['data'] = $data;
+        $page = New Page($template, $header, $body);
+        $page->composition();
 
     }
 }
 
-(New ControllerEdit)->action();
+
 

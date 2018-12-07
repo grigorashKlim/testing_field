@@ -85,9 +85,7 @@ class ModelUser extends Model
                     $this->updateDB('linkSTORAGE', ['creator' => $login_typed], ['creator' => $login_db]);
                     return $login_typed;
                 } else {
-                    /*echo "That username already exists! Please try another one!";*/
-                    $error_change_profile= New ErrorLogger();
-                    $error_change_profile->addError('Пользователь с таким именем уже существует! Пожалуйста, выберите другое имя.');
+
                     return false;
                 }
             } else {

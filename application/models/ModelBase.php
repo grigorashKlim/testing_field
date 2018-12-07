@@ -109,7 +109,7 @@ class ModelBase extends Model
         $htimeDB = substr($timeDB, 11, -6);
         $timedif = $htimeDB - $htime;
         if ($timedif != 0) {
-            echo "Время жизни письма истекло!";
+
             return false;
         }
         //
@@ -117,7 +117,7 @@ class ModelBase extends Model
             $this->updateDB('MyGuests', ['status' => 'active'], ['email' => $u_email]);
             $this->deleteDB('validate_temp', ['email' => $u_email]);
         } else {
-
+            return false;
         }
     }
 
@@ -146,25 +146,28 @@ class ModelBase extends Model
         $status_db = $this->fetch_to_string($status_db);
 
 
-        if ($login == $login_db) {
-            if ($password == $password_db) {
-                if ($status_db == 'active') {
-                    session_start();
-                    $_SESSION['user_login'] = $login;
-                    return $login;
-                } else {
-                    $error .= "Вы не подтвердили регистрацию!";
-                    echo "$error";
-                    echo "<br><a href=''>послать письмо еще раз</a><br>";
-                }
-            } else {
-                $error .= "Неверный пароль!!";
-                echo "$error";
-            }
-        } else {
+        if ($login !== $login_db) {
             $error .= "Такого пользователя не существует!";
-            echo "$error";
+            $_SESSION['errors']=$error;
+            return false;
         }
+
+            if ($password == $password_db) {
+                $error .= "Не верный пароль";
+            }
+                if ($status_db == 'active') {
+
+                    $_SESSION['user_login'] = $login;
+                    setcookie("SessionId", session_id());
+                    return $login;
+                }
+                else {
+                    $error .= "Вы не подтвердили регистрацию!";
+                    $_SESSION['errors']=$error;
+                    return false;
+                }
+
+
 
     }
 }

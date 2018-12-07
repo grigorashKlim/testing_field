@@ -90,27 +90,9 @@
         ?>
         <!--//pager//////-->
         <?php
-        /**
-         * draw pager= buttons with page numbers and arrow buttons
-         *
-         */
-        echo "<ul class='pagination'>
-            <li class='page-item'>
-                <a class='page-link' href='userList?page=$prev' aria-label='Previous'>
-                    <span aria-hidden='true'>&laquo;</span>
-                    <span class='sr-only'>Previous</span>
-                </a>
-            </li>";
-        for ($i = 1; $i <= $storage_counter; $i++) {
-            echo "<li class='page-item'><a class='page-link' href='userList?page=$i'>$i</a></li>";
+        if (isset($this->pager)) {
+            echo $this->pager;
         }
-        echo "<li class='page-item'>
-                <a class='page-link' href='userList?page=$next' aria-label='Next'>
-                    <span aria-hidden='true'>&raquo;</span>
-                    <span class='sr-only'>Next</span>
-                </a>
-            </li>
-        </ul>";
         ?>
         <!--//pager//////-->
     </div>

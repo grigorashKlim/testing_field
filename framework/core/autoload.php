@@ -13,6 +13,7 @@ class Autoloader
      * @param $classname
      * if class is not declared autholoader started.
      * if requested class starts with "Controller" or "Model" words require file with such name from dirs respectively
+     * if it wont find classes with above classes starts looking for class=name requested=name of the file;
      */
     public function load($classname)
     {
@@ -24,9 +25,10 @@ class Autoloader
             // Controller
             $class = CONT_PATH . "$classname.php";
             if (!is_file($class)) {
+
                 require_once ADM_CONT_PATH . "$classname.php";
             } else {
-                require_once CONT_PATH . "$classname.php";
+                require_once $class;
             }
 
 

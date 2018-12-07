@@ -8,7 +8,7 @@ class ModelAdmin extends ModelUser
     }
 
     /**
-     * @param $profile_id
+     * @param $this->profile_id
      * checks if role status was changed and updates
      */
     function change_role_status($profile_id)

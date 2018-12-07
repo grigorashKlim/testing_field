@@ -9,7 +9,10 @@
             Приватность: <br> <input type="checkbox" name="private"> Приватная <br>
             <br>
             <input type="submit" name="add_link" class="btn_submit disabled" value="Добавить">
-            <div id="error"></div>
+            <div ><?php
+                if (isset($this->errors))
+                echo $this->errors;
+                ?></div>
         </form>
     </div>
     <div class="col-7">
@@ -39,14 +42,14 @@
 
         <?php
         /**
-         * list output cycle data
+         * list output cycle
          */
-        $link_array = [];
+
         $link_id = 0;
         if (is_array($data)) {
             foreach ($data as $index => $row) {
                 $link_id = $row['link_header'];
-                echo "<a name='$link_id' href='/?link_id=$link_id'><div class='row'>";
+                echo "<a name='$link_id' href='/links/$link_id'><div class='row'>";
                 foreach ($row as $cell => $val) {
                     echo "<div class='col'> $val </div>";
                 }
@@ -94,36 +97,11 @@
         ?>
         <!--//pager//////-->
         <?php
-        /**
-         * draw pager= buttons with page numbers and arrow buttons
-         * $curr_page_name needs for navigation when  one content view used for different controllers
-         */
-        if (isset($_GET['route'])) {
-            $curr_page_name = $_GET['route'];
-        } else {
-            $curr_page_name = 'index';
-        }
-        if ($necessity != null) {
-            //display
-            echo "<ul class='pagination' >
-            <li class='page-item'>
-                <a class='page-link' href='$curr_page_name?page=$prev' aria-label='Previous'>
-                    <span aria-hidden='true'>&laquo;</span>
-                    <span class='sr-only'>Previous</span>
-                </a>
-            </li>";
-            for ($i = 1; $i <= $storage_counter; $i++) {
-                echo "<li class='page-item'><a class='page-link' href='$curr_page_name?page=$i'>$i</a></li>";
-            }
-            echo "<li class='page-item'>
-                <a class='page-link' href='$curr_page_name?page=$next' aria-label='Next'>
-                    <span aria-hidden='true'>&raquo;</span>
-                    <span class='sr-only'>Next</span>
-                </a>
-            </li>
-        </ul>";
+        if (isset($this->pager)) {
+            echo $this->pager;
         }
         ?>
+
         <!--//pager//////-->
     </div>
 </div>

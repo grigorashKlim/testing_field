@@ -2,44 +2,51 @@
 
 /**
  * Class Router
- * link url and files
+ * links url and files
  */
 class Router
 {
     public $route;
-    public $controller;
+    public $page_arg = null;
+    public $controller = null;
+
+    public function __construct()
+    {
+        $this->table = new Registry;
+    }
+
+
+    public function arg()
+    {
+        $this->table = new Registry;
+    }
+
 
     /**
-     * @return mixed
-     * "read" query string and put info int $route
+     * @return bool
+     * @throws Exception
+     * "read" query string and put info into $this->route
      */
-    function separate()
+    function queryIntoRoute()
     {
         $this->route = (empty($_GET['route'])) ? '' : $_GET['route'];
+
+        if ($this->route && strripos($this->route, "/")) {
+            $exploded = explode("/", $this->route);
+            $this->route = $exploded[0];
+            $this->page_arg = $exploded[1];
+        }
+
         if (isset($_GET['checkSum']) && isset($_GET['email'])) {
-            $this->route = 'activate';
-        }
-
-        if (isset($_GET['link_id'])) {
-            $link_id = $_GET['link_id'];
-            $this->route = 'info+' . $link_id;
-            return $link_id;
-        }
-
-        if (isset($_GET['link_id_for_red'])) {
-            $link_id_for_red = $_GET['link_id_for_red'];
-            $this->route = 'edit+' . $link_id_for_red;
-            return $link_id_for_red;
-        }
-        if (isset($_GET['profile_id'])) {
-            $profile_id = $_GET['profile_id'];
-            $this->route = 'edit+' . $profile_id;
-
+            $this->route = 'Login';
+            return true;
         }
 
         if (empty($this->route)) {
-            $this->route = 'index';
+            $this->route = 'Info';
+            return true;
         }
+
     }
 
     /**
@@ -48,64 +55,59 @@ class Router
      * first sets into registry income route and output argument pair
      * then gives atribute controller path to document to init
      */
-    function compare()
-    {
-        $link_id = self::separate();
-        $link_id_for_red = self::separate();
-
-        $table = new Registry;
-        $table->set('accessDenied', 'accessDenied');
-        $table->set('registration', 'Registration');
-        $table->set('index', 'Info');
-        $table->set('info', 'Info');
-        if (isset($_GET['profile_id'])) {
-            $profile_id = $_GET['profile_id'];
-            $this->route = 'profile+' . $profile_id;
-            $table->set('profile+' . $profile_id, 'Profile');
-        }
-        $table->set('info+' . $link_id, 'InfoDescription');
-        $table->set('edit+' . $link_id_for_red, 'Edit');
-        $table->set('activate', 'Login');
-        $table->set('login', 'Login');
-        $table->set('logout', 'logout');
-        $table->set('regfinish', 'regfinish');
-        $table->set('mylinks', 'MyLinks');
-        $table->set('userList', 'UserList');
-        $arg = $table->get($this->route);
-        if ($arg == 'regfinish') {
-            $this->controller = VIEW_PATH . 'regfinish.php';
-            return true;
-        }
-        if ($arg == 'accessDenied') {
-            $this->controller = VIEW_PATH . 'accessDenied.php';
-            return true;
-        }
-        if ($arg == 'logout') {
-            $this->controller = CONT_PATH . 'Logout.php';
-            return true;
-        }
-
-        $this->controller = CONT_PATH . 'Controller' . $arg . '.php';
-        if (!is_file($this->controller)) {
-            $this->controller = ADM_CONT_PATH . 'Controller' . $arg . '.php';
-            if (!is_file($this->controller)) {
-                $this->controller = VIEW_PATH . '404.php';
-            }
-        }
-
-
-    }
-
-    /**
-     * @throws Exception
-     * include called controller
-     */
     function init()
     {
-        self::compare();
-        include $this->controller;
-    }
+        self::queryIntoRoute();
 
+        /*table for converting url request into name of the controller */
+        $this->table->set('links', 'InfoDescription');
+        $this->table->set('info', 'Info');
+        $this->table->set('my_links', 'MyLinks');
+        $this->table->set('user_list', 'UserList');
+        $this->table->set('profile', 'Profile');
+        $this->table->set('registration', 'Registration');
+        $this->table->set('logout', 'Logout');
+        $this->table->set('access_denied', 'accessDenied');
+        $this->table->set('edit', 'Edit');
+        $this->table->set('login', 'Login');
+
+        /*check fpr static pages*/
+        if ($this->route == 'regfinish') {
+            return include_once VIEW_PATH . 'regfinish.php';
+        }
+        if ($this->route == 'accessDenied') {
+            return include_once VIEW_PATH . 'accessDenied.php';
+        }
+        if ($this->route == 'Logout') {
+            return include_once CONT_PATH . 'Logout.php';
+        }
+
+        /*first checks if the url needs convert*/
+        $arg = $this->table->get($this->route);
+        if ($arg !== null) {
+            $this->route = $arg;
+        }
+
+
+        foreach (ALL_CONT_PATHS as $path) {
+            if (is_file($path . 'Controller' . $this->route . '.php')) {
+                $this->controller = 'Controller' . $this->route;
+            }
+        }
+        /*404 check*/
+        if (!$this->controller) {
+
+            return include_once VIEW_PATH . '404.php';
+        }
+
+        /*if user signed in,cookie must be started as well,so session starts for role checking*/
+        $controller = New $this->controller();
+        if (isset($_COOKIE['SessionId']) && !isset($_SESSION)) {
+            session_start();
+        }
+        /*loads chosen controller*/
+        $controller->action($this->page_arg);
+    }
 }
 
 

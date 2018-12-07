@@ -1,55 +1,39 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Cache-Control" content="no-cache">
-
-    <title>Главная</title>
-    <!--BOOTSTRAP-->
+    <title><?php echo $this->title ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-------------->
     <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
-<div class="row">
-
-
-    <div class="col-6">
-
-        <a class="nav_option" href="info">Info</a>
-
-        <a class="nav_option" href="mylinks">My Links</a>
-
-        <a class="nav_option" href="/?profile_id=<?php print_r((New User)->getLogin()); ?>">My Profile</a>
-
-        <a class="nav_option" href="userList">User List</a>
-
-    </div>
-
-
-    <div class="  offset-4">
-        Логин: <?php
-
-        print_r((New User)->getLogin());
+<header>
+    <div class="row">
+        <?php echo $this->menu; ?>
+        <?php
+        if (isset($this->log_window)) {
+            echo $this->log_window->render();
+        }
         ?>
-        <form action="logout" method="post">
-            <input type="submit" name="logout" value="Выйти">
-        </form>
     </div>
-</div>
 
+</header>
 
-<?php
-$contetnt = VIEW_PATH . $content_view;
-if (!is_file($contetnt)) {
-    include ADM_VIEW_PATH . $content_view;
-} else {
-    include VIEW_PATH . $content_view;
-}
+<section>
+    <?php
+    if (isset($this->body)) {
+        echo $this->body->render();
+    }
+    ?>
+</section>
 
-?>
-
+<footer>
+    <?php
+    if (isset($this->footer)) {
+        echo $this->footer->render();
+    }
+    ?>
+</footer>
 
 <!--BOOTSTRAP-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -62,7 +46,5 @@ if (!is_file($contetnt)) {
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 <!-------------->
-
-
 </body>
 </html>
